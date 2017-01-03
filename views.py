@@ -1,9 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import generic
+from django.shortcuts import redirect
 
 from .models import Przewoznicy, Kierowcy, Motorniczy, Linie
 from .models import Przystanki, Autobusy, Tramwaje
+from .forms import PrzewoznicyForm
 
 # Create your views here.
 
@@ -11,6 +13,16 @@ def index(request):
     strony = [ 'autobusy', 'kierowcy', 'linie', 'przewoznicy', ]
     return render(request, 'index.html.j2', {'strony' : strony, })
 #    return HttpResponse("Hello, world. You're at the polls index.")
+
+def przewoznicy_nowy(request):
+    if request.method == "POST":
+        form = PrzewoznicyForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('.')
+    else:
+        form = PrzewoznicyForm()
+    return render(request, 'przewoznicy/edycja.html.j2', {'form': form})
 
 
 class PrzewoznicyListView(generic.ListView):

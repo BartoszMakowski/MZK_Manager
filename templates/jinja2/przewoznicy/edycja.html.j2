@@ -1,0 +1,6 @@
+<h1>Nowy przewoźnik</h1>
+    <form method="POST" class="post-form">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        {{ form }}
+        <button type="submit" class="save btn btn-default">Zapisz</button>
+    </form>
