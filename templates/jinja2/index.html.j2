@@ -1,0 +1,16 @@
+{% set strony = ['linie', 'kierowcy', ] %}
+
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <title>Strona główna</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <p>test</p>
+{% for strona in strony %}
+    <a href="{{strona}}">{{strona}}</a>
+{% endfor %}
+  </body>
+</html>
