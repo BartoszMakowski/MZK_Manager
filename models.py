@@ -22,6 +22,11 @@ class Autobusy(models.Model):
     przegubowy = models.NullBooleanField()
     pojemnosc_silnika = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
 
+
+    def __str__(self):
+        return self.numer_boczny + ' ' + self.marka
+
+
     class Meta:
         managed = False
         db_table = 'autobusy'
@@ -35,6 +40,11 @@ class Kierowcy(models.Model):
     przewoznicy_nip = models.ForeignKey('Przewoznicy', models.DO_NOTHING, db_column='przewoznicy_nip')
     autobusy_numer_boczny = models.ForeignKey(Autobusy, models.DO_NOTHING, db_column='autobusy_numer_boczny')
 
+
+    def __str__(self):
+        return self.imie + ' ' + self.nazwisko
+
+
     class Meta:
         managed = False
         db_table = 'kierowcy'
@@ -46,6 +56,11 @@ class Linie(models.Model):
     przewoznicy_nip = models.ForeignKey('Przewoznicy', models.DO_NOTHING, db_column='przewoznicy_nip')
     pora_dzialania = models.CharField(max_length=16, blank=True, null=True)
     typ = models.CharField(max_length=1)
+
+
+    def __str__(self):
+        return self.numer
+
 
     class Meta:
         managed = False
@@ -60,6 +75,11 @@ class Motorniczy(models.Model):
     przewoznicy_nip = models.ForeignKey('Przewoznicy', models.DO_NOTHING, db_column='przewoznicy_nip')
     tramwaje_numer_boczny = models.ForeignKey('Tramwaje', models.DO_NOTHING, db_column='tramwaje_numer_boczny')
 
+
+    def __str__(self):
+        return self.imie + ' ' + self.nazwisko
+
+
     class Meta:
         managed = False
         db_table = 'motorniczy'
@@ -71,6 +91,11 @@ class Odjazdy(models.Model):
     nazwa_systemowa = models.CharField(primary_key=True, max_length=8)
     typ_dnia = models.CharField(max_length=16)
     kolejnosc_pojazdu = models.SmallIntegerField()
+
+
+    def __str__(self):
+        return self.nazwa_systemowa + ' ' + self.godzina
+
 
     class Meta:
         managed = False
@@ -84,6 +109,11 @@ class Przejazdy(models.Model):
     data = models.DateField(blank=True, null=True)
     linie_numer = models.ForeignKey(Linie, models.DO_NOTHING, db_column='linie_numer')
 
+
+    def __str__(self):
+        return self.linie_numer + ' ' + self.kolejnosc
+
+
     class Meta:
         managed = False
         db_table = 'przejazdy'
@@ -95,8 +125,10 @@ class Przewoznicy(models.Model):
     nip = models.CharField(primary_key=True, max_length=10)
     adres = models.CharField(max_length=200)
 
+
     def __str__(self):
         return self.nazwa
+
 
     class Meta:
         managed = False
@@ -108,6 +140,11 @@ class Przystanki(models.Model):
     nazwa_przyjazna = models.CharField(max_length=32)
     adres = models.CharField(max_length=100)
     zadaszenie = models.NullBooleanField()
+ 
+
+    def __str__(self):
+        return self.nazwa_przyjazna
+
 
     class Meta:
         managed = False
@@ -120,6 +157,11 @@ class PunktyTrasy(models.Model):
     kierunek = models.SmallIntegerField()
     przystanki_nazwa_systemowa = models.ForeignKey(Przystanki, models.DO_NOTHING, db_column='przystanki_nazwa_systemowa')
     czas_przejazdu = models.SmallIntegerField(blank=True, null=True)
+
+
+    def __str__(self):
+        return self.linie_numer + '- ' + self.kierunek + '- ' + self.kolejnosc
+
 
     class Meta:
         managed = False
@@ -136,6 +178,11 @@ class Tramwaje(models.Model):
     zajezdnie = models.ForeignKey('Zajezdnie', models.DO_NOTHING)
     niskopodlogowy = models.NullBooleanField()
     samodzielny = models.BooleanField()
+
+
+    def __str__(self):
+        return self.numer_boczny + ' ' + self.model
+
 
     class Meta:
         managed = False

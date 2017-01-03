@@ -1,5 +1,3 @@
-{% set strony = ['linie', 'kierowcy', ] %}
-
 <!DOCTYPE html>
 <html lang="pl">
   <head>
@@ -8,9 +6,11 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <p>test</p>
+    <h1>Strona główna</h1>
+    <ul>
 {% for strona in strony %}
-    <a href="{{strona}}">{{strona}}</a>
+      <li><a href="{{strona}}">{{strona}}</a></li>
 {% endfor %}
+    </ul>
   </body>
 </html>
