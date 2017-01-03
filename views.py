@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.shortcuts import redirect
 
@@ -14,6 +14,17 @@ def index(request):
     return render(request, 'index.html.j2', {'strony' : strony, })
 #    return HttpResponse("Hello, world. You're at the polls index.")
 
+def przewoznicy_edycja(request, nip):
+    przewoznik = get_object_or_404(Przewoznicy, nip=nip)
+    if request.method == "POST":
+        form = PrzewoznicyForm(request.POST, instance = przewoznik)
+        if form.is_valid():
+            form.save()
+            return redirect('.')
+    else:
+        form = PrzewoznicyForm(instance = przewoznik)
+    return render(request, 'przewoznicy/edycja.html.j2', {'form': form})
+
 def przewoznicy_nowy(request):
     if request.method == "POST":
         form = PrzewoznicyForm(request.POST)
@@ -25,9 +36,18 @@ def przewoznicy_nowy(request):
     return render(request, 'przewoznicy/edycja.html.j2', {'form': form})
 
 
+class PrzewoznicyDetailView(generic.DetailView):
+    model = Przewoznicy
+    template_name = 'przewoznicy/detail.html.j2'
+
+#    def get_object(self):
+#        return get_object_or_404(Przewoznicy, nip=self.request.przewoznicy)
+
+
 class PrzewoznicyListView(generic.ListView):
     model = Przewoznicy
     template_name = 'przewoznicy/index.html.j2'
+
 
 class LinieListView(generic.ListView):
     model = Linie
